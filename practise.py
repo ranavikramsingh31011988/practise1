@@ -6,7 +6,7 @@ class Mammal(Animal):
         print("Mammal breathes")
 class Bird(Animal):
     def fly(self):
-        print("Bird fly and fly")
+        print("Bird fly and fly FLY")
 class Bat(Mammal, Bird):  # Bat inherits from both Mammal and Bird
     def hang(self):
         print("Bat hangs upside down")
