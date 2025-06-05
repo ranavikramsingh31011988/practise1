@@ -1,18 +1,8 @@
-class Animal:
-    def speak(self):
-        print("Animal speaks")
-class Mammal(Animal):
-    def breathe(self):
-        print("Mammal breathes")
-class Bird(Animal):
-    def fly(self):
-        print("Bird fly and fly FLY")
-class Bat(Mammal, Bird):  # Bat inherits from both Mammal and Bird
-    def hang(self):
-        print("Bat hangs upside down")
-# Creating an object of the Bat class
-bat = Bat()
-bat.speak()  # Inherited from Animal
-bat.breathe()  # Inherited from Mammal
-bat.fly()  # Inherited from Bird
-bat.hang()  # Defined in Bat
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("TestApp").getOrCreate()
+
+data = [(1, "Alice", 25), (2, "Bob", 30)]
+columns = ["ID", "Name", "Age"]
+df = spark.createDataFrame(data, columns)
+df.show()
