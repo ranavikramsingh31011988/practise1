@@ -22,3 +22,5 @@ df_trimmed = df.select(
 df_trimmed.show(truncate=False)
 
 print("this is new file")
+
+print("this is second line for the file")
