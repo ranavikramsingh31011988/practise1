@@ -1,26 +1,39 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import trim, ltrim, rtrim
+from pyspark.sql.functions import col, udf
+from pyspark.sql.types import StringType
 
-# Initialize Spark session
-spark = SparkSession.builder.appName("TrimExample").getOrCreate()
+spark = SparkSession \
+    .builder \
+    .appName("Python PySpark Example") \
+    .getOrCreate()
 
-# Sample Data
-data = [("  Hello  ",), ("  World",), ("Spark  ",)]
-columns = ["col1"]
+column_names = ["language", "framework", "users"]
+data = [
+    ("Python", "Django", 20000),
+    ("Python", "FastAPI", 9000),
+    ("JavaScript", "ReactJS", 5000)
+]
+df = spark.createDataFrame(data, column_names)
+df.show()
 
-# Create DataFrame
-df = spark.createDataFrame(data, columns)
+# Define Python function
+def lower_case(text: str) -> str:
+    return text.lower()
 
-# Apply trim functions
-df_trimmed = df.select(
-    df.col1,
-    trim(df.col1).alias("trimmed"),
-    ltrim(df.col1).alias("left_trimmed"),
-    rtrim(df.col1).alias("right_trimmed")
+
+#help(udf)
+# Convert Python function into UDF
+lower_case_udf = udf(
+    lambda x: lower_case(x),StringType())
+
+# Apply UDF to DataFrame
+new_df = df.withColumn(
+    "framework_lower",
+    lower_case_udf(col("framework"))
 )
+new_df.show()
 
-df_trimmed.show(truncate=False)
 
-print("this is new file")
 
-print("this is second line for the file  y  ")
+
+
